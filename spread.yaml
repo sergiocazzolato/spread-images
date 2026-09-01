@@ -223,10 +223,14 @@ backends:
                 image: auto-sync/ubuntu-xenial-16.04-amd64-server
             - ubuntu-16.04-64:
                 image: snapd-spread/ubuntu-16.04-64
+            - ubuntu-16.04-64-nested:
+                image: snapd-spread/ubuntu-16.04-64-nested
             - ubuntu-18.04-64-base:
                 image: auto-sync/ubuntu-bionic-18.04-amd64-server 
             - ubuntu-18.04-64:
                 image: snapd-spread/ubuntu-18.04-64
+            - ubuntu-18.04-64-nested:
+                image: snapd-spread/ubuntu-18.04-64-nested
             - ubuntu-20.04-64-base:
                 image: auto-sync/ubuntu-focal-20.04-amd64-server
             - ubuntu-20.04-64:
@@ -237,6 +241,8 @@ backends:
                 image: snapd-spread/ubuntu-20.04-64-uefi
             - ubuntu-20.04-64-pro-fips-enabled:
                 image: snapd-spread/ubuntu-20.04-64-pro-fips-enabled
+            - ubuntu-20.04-64-nested:
+                image: snapd-spread/ubuntu-20.04-64-nested
             - ubuntu-22.04-64-base:
                 image: auto-sync/ubuntu-jammy-22.04-amd64-server
             - ubuntu-22.04-64:
@@ -249,6 +255,8 @@ backends:
                 image: snapd-spread/ubuntu-22.04-64-pro-fips
             - ubuntu-22.04-64-pro-fips:
                 image: snapd-spread/ubuntu-22.04-64-pro-fips
+            - ubuntu-22.04-64-nested:
+                image: snapd-spread/ubuntu-22.04-64-nested
             - ubuntu-24.04-64-base:
                 image: auto-sync/ubuntu-noble-24.04-amd64-server
             - ubuntu-24.04-64:
