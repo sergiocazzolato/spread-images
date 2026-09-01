@@ -569,3 +569,14 @@ remove_pkg_blacklist(){
         distro_purge_package "$pkgs"
     fi
 }
+
+install_nested_dependencies(){
+    if os.query is-ubuntu 2004 || os.query is-ubuntu 2204; then
+        apt install -y software-properties-common
+        add-apt-repository -y ppa:snappy-dev/image
+        apt install -y ubuntu-core-initramfs linux-firmware
+    elif os.query is-ubuntu-ge 24.04; then
+        apt install -y dpkg-dev debhelper devscripts distro-info
+        # TODO: install from the gce backet the dependency generated
+    fi
+}

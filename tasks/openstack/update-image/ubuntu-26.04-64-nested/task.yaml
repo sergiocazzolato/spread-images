@@ -19,6 +19,7 @@ execute: |
 
         install_pkg_dependencies
         install_test_dependencies "$TARGET_SYSTEM"
+        install_nested_dependencies
 
         remove_pkg_blacklist
 

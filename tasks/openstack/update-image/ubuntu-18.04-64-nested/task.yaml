@@ -1,11 +1,9 @@
-summary: Update Ubuntu 24.04 64 bits image with the latest updates for nested tests
+summary: Update Ubuntu 18.04 64 bits image with the latest updates
 
-systems: [ubuntu-24.04-arm-64-base]
-
-kill-timeout: 40m
+systems: [ubuntu-18.04-64-base]
 
 environment:
-    TARGET_SYSTEM: ubuntu-24.04-arm-64-nested
+    TARGET_SYSTEM: ubuntu-18.04-64-nested
     NESTED_TYPE: core
 
 execute: |
@@ -19,7 +17,6 @@ execute: |
 
         install_pkg_dependencies
         install_test_dependencies "$TARGET_SYSTEM"
-        install_nested_dependencies
 
         remove_pkg_blacklist
 
@@ -32,13 +29,10 @@ execute: |
     # Disable daily checks for updates to avoid apt locks
     sudo systemctl disable --now apt-daily{,-upgrade}.{timer,service}
 
-    # Disable the service because sometimes is failing
-    systemctl disable --now fwupd.service fwupd-refresh.service fwupd-refresh.timer
-
     # Setup ntp server depending on the openstack environment
     update_ntp
 
-    # Clean disk before create the shapshot
+    # Clean the disk
     clean_machine
 
 restore: |
