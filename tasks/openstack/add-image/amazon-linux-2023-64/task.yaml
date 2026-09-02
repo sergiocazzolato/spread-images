@@ -46,7 +46,7 @@ execute: |
     rm -f /mnt/disk/etc/cloud/cloud.cfg.d/*
     cp 05_logging.cfg /mnt/disk/etc/cloud/cloud.cfg.d/05_logging.cfg
 
-    # The default dns server is not working properly in google
+    # The default dns server is not working properly
     # so we force using also 8.8.8.8
     echo "nameserver 8.8.8.8" | tee -a /mnt/disk/etc/resolv.conf
 

@@ -673,8 +673,7 @@ add_image() {
 
     image_format=qcow2
     export SPREAD_IMAGE_NAME="${task}-base.${image_format}"
-    export SPREAD_GOOGLE_KEY="./sa.json"
-    spread google:ubuntu-22.04-64:tasks/openstack/add-image/"$task"
+    spread openstack:ubuntu-22.04-64:tasks/openstack/add-image/"$task"
     
     # Set the properties specified
     properties_param=""
@@ -690,8 +689,7 @@ add_image() {
     # clean up
     rm "$SPREAD_IMAGE_NAME"
     unset SPREAD_IMAGE_URL
-    unset SPREAD_IMAGE_NAME
-    unset SPREAD_GOOGLE_KEY
+    unset SPREAD_IMAGE_NAME    
 
     set +x
 }

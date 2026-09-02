@@ -1,182 +1,5 @@
 #!/bin/bash
 
-distro_install_google_sdk() {
-    case "$SPREAD_SYSTEM" in
-        ubuntu-*|debian-*)
-            if ! command -v gcloud; then
-                echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-                curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
-                apt update && apt install -y google-cloud-sdk
-            fi            
-            ;;
-        fedora-*)
-            rm -rf /etc/yum.repos.d/google-cloud*.repo
-            tee -a /etc/yum.repos.d/google-cloud-sdk.repo << EOM
-[google-cloud-cli]
-name=Google Cloud CLI
-baseurl=https://packages.cloud.google.com/yum/repos/cloud-sdk-el9-x86_64
-enabled=1
-gpgcheck=1
-repo_gpgcheck=0
-gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-EOM
-            if [ -z "${CLOUDSDK_PYTHON:-}" ]; then
-                CURR_PYTHON="$(readlink $(which python3))"
-                # TODO: remove this when python3.10 works with gcloud command
-                # + gcloud auth activate-service-account --key-file=/root/spread/sa.json
-                # ERROR: gcloud failed to load: module 'collections' has no attribute 'Mapping'
-                if [ "$CURR_PYTHON" = "python3.10" ]; then
-                    dnf install -y python3.9
-                    echo "CLOUDSDK_PYTHON=python3.9" >> /etc/environment
-                    export CLOUDSDK_PYTHON="python3.9"
-                else
-                    echo "CLOUDSDK_PYTHON=$CURR_PYTHON" >> /etc/environment
-                    export CLOUDSDK_PYTHON="$CURR_PYTHON"
-                fi
-                
-            fi
-            dnf makecache
-            dnf install -y google-cloud-cli
-            rm -f /etc/yum.repos.d/google-cloud-sdk.repo
-            ;;
-        arch-*|opensuse-*|amazon-*)
-                rm -rf /usr/share/google/google-cloud-sdk
-                mkdir -p /usr/share/google
-                curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz
-                tar -xf google-cloud-cli-linux-x86_64.tar.gz                
-                rm -f google-cloud-cli-linux-x86_64.tar.gz
-                mv google-cloud-sdk /usr/share/google/
-                /usr/share/google/google-cloud-sdk/install.sh -q
-                ln -s /usr/share/google/google-cloud-sdk/bin/gcloud /usr/bin/gcloud
-                ln -s /usr/share/google/google-cloud-sdk/bin/gcutil /usr/bin/gcutil
-                ln -s /usr/share/google/google-cloud-sdk/bin/gsutil /usr/bin/gsutil        
-            ;;
-        centos-*)
-            rm -rf /etc/yum.repos.d/google-cloud*.repo
-            tee /etc/yum.repos.d/google-cloud-sdk.repo << EOM
-[google-cloud-sdk]
-name=Google Cloud SDK
-baseurl=https://packages.cloud.google.com/yum/repos/cloud-sdk-el7-x86_64
-enabled=1
-gpgcheck=1
-repo_gpgcheck=0
-gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
-       https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-EOM
-            yum -y install google-cloud-sdk
-            rm -f /etc/yum.repos.d/google-cloud-sdk.repo
-            ;;
-        *)
-            echo "ERROR: Unsupported distribution $SPREAD_SYSTEM"
-            exit 1
-            ;;
-    esac
-}
-
-distro_remove_google_sdk() {
-    case "$SPREAD_SYSTEM" in
-        ubuntu-*|debian-*)
-            distro_purge_package google-cloud-sdk
-            ;;
-        fedora-*)
-            distro_purge_package google-cloud-sdk
-            ;;
-        opensuse-*)
-            echo "Not required yet"
-            ;;
-        arch-*|amazon-*)
-            echo "Not required yet"
-            ;;
-        centos-*)
-            distro_purge_package google-cloud-sdk
-            ;;
-        *)
-            echo "ERROR: Unsupported distribution $SPREAD_SYSTEM"
-            exit 1
-            ;;
-    esac
-}
-
-distro_reinstall_google_sdk() {
-    distro_remove_google_sdk
-    # Clean repository
-    case "$SPREAD_SYSTEM" in
-        ubuntu-*|debian-*)
-            rm -f /etc/apt/sources.list.d/google-cloud*.list
-            ;;
-        fedora-*)
-            rm -f /etc/yum.repos.d/google-cloud*.repo
-            ;;
-        opensuse-*)
-            rm -rf /usr/share/google
-            ;;
-        arch-*|amazon-*)
-            rm -rf /usr/share/google/google-cloud-sdk
-            ;;
-        centos-*)
-            rm -f /etc/yum.repos.d/google-cloud*.repo
-            ;;
-        *)
-            echo "ERROR: Unsupported distribution $SPREAD_SYSTEM"
-            exit 1
-            ;;
-    esac
-    distro_install_package google-cloud-sdk
-    gcloud auth activate-service-account --key-file="$PROJECT_PATH/sa.json"
-}
-
-clean_google_services() {
-    echo "Cleaning google services already running in the system"
-    services="$(ls /usr/lib/systemd/system/google-*.service)" || return
-    for service in $services; do
-        systemctl stop "$service" || true
-        systemctl disable "$service" || true
-        rm -f "/etc/systemd/system/$service"
-        systemctl daemon-reload
-    done
-}
-
-distro_install_google_compute_engine() {
-    case "$SPREAD_SYSTEM" in
-        ubuntu-*|debian-*)
-            distro_install_package google-compute-engine
-            ;;
-        fedora-*)
-            distro_install_package google-compute-engine
-            ;;
-        opensuse-*)
-            echo "Not required yet"
-            ;;
-        arch-*)
-            clean_google_services
-
-            distro_purge_package gce-compute-image-packages
-
-            if ! id user >/dev/null 2>&1; then
-                useradd -m user
-            fi
-            su -c 'cd /tmp && curl https://aur.archlinux.org/cgit/aur.git/snapshot/google-compute-engine.tar.gz | tar zxvf - && cd google-compute-engine && makepkg --syncdeps --noconfirm' - user
-            pkgfiles=$(find /tmp/google-compute-engine -name '*.pkg.tar.xz')
-            for pkg in $pkgfiles; do
-                pacman -U --noconfirm "$pkg"
-            done
-            rm -rf /tmp/google-compute-engine
-
-            services="$(ls /usr/lib/systemd/system/google-*.service)"
-            for service in $services; do
-                systemctl enable "$service"
-            done
-            ;;
-        amazon-*|centos-*)
-            echo "Not required yet"
-            ;;
-        *)
-            echo "ERROR: Unsupported distribution $SPREAD_SYSTEM"
-            exit 1
-            ;;
-    esac
-}
-
 distro_clean_old_packages() {
     # Clean all the packages but the newest one
     local pkg_filter=$1
@@ -286,8 +109,6 @@ distro_update_package_db() {
             apt update
             ;;
         fedora-*)
-            # Delete google repository because it is not needed any more
-            rm -f /etc/yum.repos.d/google-cloud.repo
             # Clean and update repo
             dnf clean all
             dnf makecache
@@ -300,8 +121,6 @@ distro_update_package_db() {
             pacman -Syy
             ;;
         amazon-*|centos-*)
-            # Delete google repository because it is not needed any more
-            rm -f /etc/yum.repos.d/google-cloud.repo
             yum clean all
             yum --nogpgcheck makecache
             ;;
@@ -529,7 +348,6 @@ distro_initial_repo_setup(){
         amazon-*)
             ;;
         centos-*)
-            rm -rf /etc/yum.repos.d/google-cloud*.repo
             ;;
         *)
             ;;
@@ -540,11 +358,6 @@ install_pkg_dependencies(){
     pkgs=$(pkg_dependencies)
     if [ ! -z "$pkgs" ]; then
         distro_install_package "$pkgs"
-    fi
-    if [ "$SPREAD_BACKEND" = google ]; then
-        if ! command -v gcloud >/dev/null; then
-            distro_install_google_sdk
-        fi
     fi
 }
 

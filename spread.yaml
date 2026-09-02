@@ -13,190 +13,6 @@ environment:
     https_proxy: '$(HOST: echo "$SPREAD_HTTPS_PROXY")'
 
 backends:
-    google:
-        key: "$(HOST: echo $SPREAD_GOOGLE_KEY)"
-        location: snapd-spread/us-east1-b
-        halt-timeout: 2h
-        systems:
-            - ubuntu-14.04-64:
-                image: ubuntu-1404-64
-            - ubuntu-16.04-64:
-                image: ubuntu-1604-64
-            - ubuntu-16.04-64-virt-enabled:
-                image: ubuntu-1604-64-virt-enabled
-            - ubuntu-18.04-64:
-                image: ubuntu-1804-64
-            - ubuntu-18.04-64-virt-enabled:
-                image: ubuntu-1804-64-virt-enabled
-            - ubuntu-20.04-64-base:
-                image: ubuntu-os-cloud/ubuntu-2004-lts
-            - ubuntu-20.04-64:
-                image: ubuntu-2004-64
-                storage: 16G
-            - ubuntu-20.04-64-pro-fips-base:
-                image: ubuntu-os-pro-cloud/ubuntu-pro-fips-2004-focal-v20240701
-                storage: 16G
-                attach-service-account: true
-            - ubuntu-20.04-64-pro-fips-enabled:
-                image: ubuntu-2004-64-pro-fips-enabled
-                storage: 16G
-                attach-service-account: true
-            - ubuntu-20.04-64-virt-enabled:
-                image: ubuntu-2004-64-virt-enabled
-            - ubuntu-22.04-64-base:
-                image: ubuntu-os-cloud/ubuntu-2204-lts
-            - ubuntu-22.04-64:
-                image: ubuntu-2204-64
-                storage: 20G
-            - ubuntu-22.04-64-pro-base:
-                image: ubuntu-os-pro-cloud/ubuntu-pro-2204-jammy-v20240801
-                storage: 16G
-                attach-service-account: true
-            - ubuntu-22.04-64-pro-fips-enabled:
-                image: ubuntu-2204-64-pro-fips-enabled
-                storage: 16G
-                attach-service-account: true
-            - ubuntu-22.04-64-virt-enabled:
-                image: ubuntu-2204-64-virt-enabled
-            - ubuntu-24.04-64-base:
-                image: ubuntu-os-cloud/ubuntu-2404-lts-amd64
-            - ubuntu-24.04-64:
-                image: ubuntu-2404-64
-            - ubuntu-24.04-64-virt-enabled:
-                image: ubuntu-2404-64-virt-enabled
-            - ubuntu-24.10-64-base:
-                image: ubuntu-os-cloud/ubuntu-2410-amd64
-            - ubuntu-24.10-64:
-                image: ubuntu-2410-64
-            - ubuntu-25.04-64-base:
-                image: ubuntu-os-cloud/ubuntu-2504-amd64
-            - ubuntu-25.04-64:
-                image: ubuntu-2504-64
-            - ubuntu-25.10-64-base:
-                image: ubuntu-os-cloud/ubuntu-2510-amd64
-            - ubuntu-25.10-64:
-                image: ubuntu-2510-64
-            - ubuntu-26.04-64-base:
-                image: ubuntu-os-cloud-devel/ubuntu-2604-lts-amd64
-            - ubuntu-26.04-64:
-                image: ubuntu-2604-64
-            - ubuntu-26.04-64-virt-enabled:
-                image: ubuntu-2604-64-virt-enabled
-
-            - debian-11-64-base:
-                image: debian-cloud/debian-11
-            - debian-11-64:
-                image: debian-11-64
-            - debian-12-64-base:
-                image: debian-cloud/debian-12
-            - debian-12-64:
-                image: debian-12-64
-            - debian-sid-64-base:
-                image: debian-sid-64-base
-            - debian-sid-64:
-                image: debian-sid-64
-
-            - fedora-39-64-base:
-                image: fedora-cloud/fedora-cloud-39
-            - fedora-39-64:
-                image: fedora-39-64
-                storage: 30G
-            - fedora-rawhide-64:
-                image: fedora-rawhide-64
-
-            - opensuse-15.5-64-base:
-                image: opensuse-cloud/opensuse-leap-15-5-v20250411-x86-64
-            - opensuse-15.5-64:
-                image: opensuse-leap-15-5-64
-            - opensuse-15.6-64-base:
-                image: opensuse-cloud/opensuse-leap-15-6-v20250408-x86-64
-            - opensuse-15.6-64:
-                image: opensuse-leap-15-6-64
-            - opensuse-tumbleweed-64-base:
-                image: opensuse-tumbleweed-64-base
-            - opensuse-tumbleweed-64:
-                image: opensuse-tumbleweed-64
-
-            - arch-linux-64-base:
-                image: arch-linux-64-base
-            - arch-linux-64:
-                image: arch-linux-64
-
-            - amazon-linux-2023-64-base:
-                image: amazon-linux-2023-64-base
-                storage: preserve-size
-            - amazon-linux-2023-64:
-                image: amazon-linux-2023-64
-                storage: preserve-size
-
-            - centos-9-64-base:
-                image: centos-cloud/centos-stream-9
-                storage: preserve-size
-            - centos-9-64:
-                image: centos-9-64
-                storage: preserve-size
-
-    google-nested:
-        type: google
-        key: '$(HOST: echo "$SPREAD_GOOGLE_KEY")'
-        location: snapd-spread/us-east1-b
-        plan: n1-standard-2
-        halt-timeout: 2h
-        systems:
-            - ubuntu-16.04-64:
-                image: ubuntu-1604-64-virt-enabled
-                storage: 20G
-            - ubuntu-18.04-64:
-                image: ubuntu-1804-64-virt-enabled
-                storage: 20G
-            - ubuntu-20.04-64:
-                image: ubuntu-2004-64-virt-enabled
-                storage: 20G
-            - ubuntu-22.04-64:
-                image: ubuntu-2204-64-virt-enabled
-                storage: 20G
-            - ubuntu-22.04-arm-64:
-                image: ubuntu-2204-arm-64-virt-enabled
-                storage: 20G
-            - ubuntu-24.04-64:
-                image: ubuntu-2404-64-virt-enabled
-                storage: 20G
-            - ubuntu-26.04-64:
-                image: ubuntu-2604-64-virt-enabled
-                storage: 20G
-
-    google-arm:
-        type: google
-        key: '$(HOST: echo "$SPREAD_GOOGLE_KEY")'
-        location: snapd-spread/us-central1-a
-        plan: t2a-standard-1
-        halt-timeout: 2h
-        systems:
-            - ubuntu-20.04-arm-64-base:
-                  image: ubuntu-os-cloud/ubuntu-2004-lts-arm64
-                  storage: 12G
-            - ubuntu-20.04-arm-64:
-                  image: ubuntu-2004-arm-64
-                  storage: 12G
-            - ubuntu-22.04-arm-64-base:
-                  image: ubuntu-os-cloud/ubuntu-2204-lts-arm64
-                  storage: 12G
-            - ubuntu-22.04-arm-64:
-                  image: ubuntu-2204-arm-64
-                  storage: 12G
-            - ubuntu-24.04-arm-64-base:
-                  image: ubuntu-os-cloud/ubuntu-2404-lts-arm64
-                  storage: 12G
-            - ubuntu-24.04-arm-64:
-                  image: ubuntu-2404-arm-64
-                  storage: 12G
-            - ubuntu-26.04-arm-64-base:
-                  image: ubuntu-os-cloud-devel/ubuntu-2604-lts-arm64
-                  storage: 12G
-            - ubuntu-26.04-arm-64:
-                  image: ubuntu-2604-arm-64
-                  storage: 12G
-
     openstack:
         key: '$(HOST: echo "$OS_CREDENTIALS_AMD64_PS7")'                                                                                                                                                            
         plan: shared.xsmall
@@ -471,52 +287,6 @@ path: /root/spread
 kill-timeout: 20m
 
 suites:
-    tasks/google/add-image/:
-        summary: Create images for google backend
-        backends: [google]
-        environment:
-            GCE_PROJECT: snapd-spread
-            ZONE: us-east1-b
-            BUCKET_NAME: snapd-spread-images
-        prepare: |
-            . "$TESTSLIB/pkgdb.sh"
-
-            if ! [ -f "$PROJECT_PATH/sa.json" ]; then
-                echo "Service account file not found in root path"
-                exit 1
-            fi
-            distro_initial_repo_setup
-            distro_update_package_db
-            install_pkg_dependencies
-            gcloud auth activate-service-account --key-file="$PROJECT_PATH/sa.json"
-
-    tasks/google/update-image/:
-        summary: Update images for google backend
-        backends: [google, google-arm]
-        environment:
-            GCE_PROJECT: snapd-spread
-            ZONE: us-east1-b
-            BUCKET_NAME: snapd-spread-images
-        prepare: |
-            . "$TESTSLIB/pkgdb.sh"
-
-            if ! [ -f "$PROJECT_PATH/sa.json" ]; then
-                echo "Service account file not found in root path"
-                exit 1
-            fi
-            distro_initial_repo_setup
-            distro_update_package_db
-            install_pkg_dependencies
-            gcloud auth activate-service-account --key-file="$PROJECT_PATH/sa.json"
-
-    tasks/google/common/:
-        summary: Commmon tasks for google backend
-        backends: [google]
-        environment:
-            GCE_PROJECT: snapd-spread
-            ZONE: us-east1-b
-            BUCKET_NAME: snapd-spread-images
-
     tasks/openstack/common/:
         summary: Commmon tasks for openstack backend
         backends: [openstack, openstack-arm, openstack-stg, openstack-stg-arm]
@@ -533,11 +303,13 @@ suites:
 
     tasks/openstack/add-image/:
         summary: add images for openstack backend
-        backends: [google, openstack]
+        backends: [openstack]
         systems: [ubuntu-*]
         environment:
         prepare: |
+            apt install -y google-cloud-cli
             gcloud auth activate-service-account --key-file="$PROJECT_PATH/sa.json"
+            rm -f "$PROJECT_PATH/sa.json"
 
     tasks/openstack/update-image/:
         summary: Update images for openstack backend
