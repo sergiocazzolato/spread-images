@@ -49,32 +49,31 @@ jobs:
             target: ubuntu-26.10-64
             property: hw_firmware_type=uefi
 
-          - group: ubuntu 20.04 uefi
-            task: ubuntu-20.04-64
-            source: ubuntu-20.04-64-base
-            target: ubuntu-20.04-64-uefi
-            property: hw_firmware_type=uefi
-          - group: ubuntu 22.04 uefi
-            task: ubuntu-22.04-64
-            source: ubuntu-22.04-64-base
-            target: ubuntu-22.04-64-uefi
-            property: hw_firmware_type=uefi
-          - group: ubuntu 24.04 uefi
-            task: ubuntu-24.04-64
-            source: ubuntu-24.04-64-base
-            target: ubuntu-24.04-64-uefi
-            property: hw_firmware_type=uefi
-          - group: ubuntu 26.04 uefi
-            task: ubuntu-26.04-64
-            source: ubuntu-26.04-64-base
-            target: ubuntu-26.04-64-uefi
-            property: hw_firmware_type=uefi
-
-          - group: nested ubuntu 20.04
-            task: ubuntu-20.04-64-hwe
-            source: ubuntu-20.04-64-base
-            target: ubuntu-20.04-64-hwe
+          - group: nested ubuntu 18.04
+            task: ubuntu-18.04-64-nested
+            source: ubuntu-18.04-64-base
+            target: ubuntu-18.04-64-nested
             property:
+          - group: nested ubuntu 20.04
+            task: ubuntu-20.04-64-nested
+            source: ubuntu-20.04-64-base
+            target: ubuntu-20.04-64-nested
+            property: hw_firmware_type=uefi
+          - group: nested ubuntu 22.04
+            task: ubuntu-22.04-64-nested
+            source: ubuntu-22.04-64-base
+            target: ubuntu-22.04-64-nested
+            property: hw_firmware_type=uefi
+          - group: nested ubuntu 24.04
+            task: ubuntu-24.04-64-nested
+            source: ubuntu-24.04-64-base
+            target: ubuntu-24.04-64-nested
+            property: hw_firmware_type=uefi
+          - group: nested ubuntu 26.04
+            task: ubuntu-26.04-64-nested
+            source: ubuntu-26.04-64-base
+            target: ubuntu-26.04-64-nested
+            property: hw_firmware_type=uefi
 
           - group: ubuntu-22-fips-enabled
             task: ubuntu-fips-enabled
