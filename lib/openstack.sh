@@ -63,12 +63,12 @@ show_help_update() {
     echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-14.04-64 --source-system ubuntu-14.04-64-base --target-system ubuntu-14.04-64"
     echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-16.04-64 --source-system ubuntu-16.04-64-base --target-system ubuntu-16.04-64"
     echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-18.04-64 --source-system ubuntu-18.04-64-base --target-system ubuntu-18.04-64"
-    echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-20.04-64 --source-system ubuntu-20.04-64-base --target-system ubuntu-20.04-64"
-    echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-20.04-64-hwe --source-system ubuntu-20.04-64-base --target-system ubuntu-20.04-64-hwe"
-    echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-22.04-64 --source-system ubuntu-22.04-64-base --target-system ubuntu-22.04-64"
-    echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-24.04-64 --source-system ubuntu-24.04-64-base --target-system ubuntu-24.04-64"
-    echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-26.04-64 --source-system ubuntu-26.04-64-base --target-system ubuntu-26.04-64"
-    echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-26.10-64 --source-system ubuntu-26.10-64-base --target-system ubuntu-26.10-64"
+    echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-20.04-64 --source-system ubuntu-20.04-64-base --target-system ubuntu-20.04-64 --property hw_firmware_type=uefi"
+    echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-20.04-64-hwe --source-system ubuntu-20.04-64-base --target-system ubuntu-20.04-64-hwe --property hw_firmware_type=uefi"
+    echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-22.04-64 --source-system ubuntu-22.04-64-base --target-system ubuntu-22.04-64 --property hw_firmware_type=uefi"
+    echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-24.04-64 --source-system ubuntu-24.04-64-base --target-system ubuntu-24.04-64 --property hw_firmware_type=uefi"
+    echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-26.04-64 --source-system ubuntu-26.04-64-base --target-system ubuntu-26.04-64 --property hw_firmware_type=uefi"
+    echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-26.10-64 --source-system ubuntu-26.10-64-base --target-system ubuntu-26.10-64 --property hw_firmware_type=uefi"
     echo ""
     echo "examples for ubuntu images with secboot:"
     echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-22.04-64 --source-system ubuntu-22.04-64-base --target-system ubuntu-24.04-64-secboot --property os_secure_boot=required --property hw_firmware_type=uefi --property hw_machine_type=q35"
@@ -80,17 +80,11 @@ show_help_update() {
     echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-fips-enabled --source-system ubuntu-24.04-64-base --target-system ubuntu-24.04-64-pro-fips"
     echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-fips-enabled --source-system ubuntu-26.04-64-base --target-system ubuntu-26.04-64-pro-fips"
     echo ""
-    echo "examples for core images:"
-    echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-20.04-64 --source-system ubuntu-20.04-64-base --target-system ubuntu-20.04-64-uefi --property hw_firmware_type=uefi"
-    echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-22.04-64 --source-system ubuntu-22.04-64-base --target-system ubuntu-22.04-64-uefi --property hw_firmware_type=uefi"
-    echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-24.04-64 --source-system ubuntu-24.04-64-base --target-system ubuntu-24.04-64-uefi --property hw_firmware_type=uefi"
-    echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-26.04-64 --source-system ubuntu-26.04-64-base --target-system ubuntu-26.04-64-uefi --property hw_firmware_type=uefi"
-    echo ""
     echo "examples for arm images:"
-    echo "./lib/openstack.sh update-image --backend openstack-arm --task ubuntu-20.04-arm-64 --source-system ubuntu-20.04-arm-64-base --target-system ubuntu-20.04-arm-64"
-    echo "./lib/openstack.sh update-image --backend openstack-arm --task ubuntu-22.04-arm-64 --source-system ubuntu-22.04-arm-64-base --target-system ubuntu-22.04-arm-64"
-    echo "./lib/openstack.sh update-image --backend openstack-arm --task ubuntu-24.04-arm-64 --source-system ubuntu-24.04-arm-64-base --target-system ubuntu-24.04-arm-64"
-    echo "./lib/openstack.sh update-image --backend openstack-arm --task ubuntu-26.04-arm-64 --source-system ubuntu-26.04-arm-64-base --target-system ubuntu-26.04-arm-64"
+    echo "./lib/openstack.sh update-image --backend openstack-arm --task ubuntu-20.04-arm-64 --source-system ubuntu-20.04-arm-64-base --target-system ubuntu-20.04-arm-64 --property hw_firmware_type=uefi"
+    echo "./lib/openstack.sh update-image --backend openstack-arm --task ubuntu-22.04-arm-64 --source-system ubuntu-22.04-arm-64-base --target-system ubuntu-22.04-arm-64 --property hw_firmware_type=uefi"
+    echo "./lib/openstack.sh update-image --backend openstack-arm --task ubuntu-24.04-arm-64 --source-system ubuntu-24.04-arm-64-base --target-system ubuntu-24.04-arm-64 --property hw_firmware_type=uefi"
+    echo "./lib/openstack.sh update-image --backend openstack-arm --task ubuntu-26.04-arm-64 --source-system ubuntu-26.04-arm-64-base --target-system ubuntu-26.04-arm-64 --property hw_firmware_type=uefi"
     echo ""
     echo "examples for core-arm images:"
     echo "./lib/openstack.sh update-image --backend openstack-arm --task ubuntu-22.04-arm-64 --source-system ubuntu-22.04-arm-64-base --target-system ubuntu-22.04-arm-64-uefi --property hw_firmware_type=uefi"
@@ -673,8 +667,7 @@ add_image() {
 
     image_format=qcow2
     export SPREAD_IMAGE_NAME="${task}-base.${image_format}"
-    export SPREAD_GOOGLE_KEY="./sa.json"
-    spread google:ubuntu-22.04-64:tasks/openstack/add-image/"$task"
+    spread openstack:ubuntu-22.04-64:tasks/openstack/add-image/"$task"
     
     # Set the properties specified
     properties_param=""
@@ -690,8 +683,7 @@ add_image() {
     # clean up
     rm "$SPREAD_IMAGE_NAME"
     unset SPREAD_IMAGE_URL
-    unset SPREAD_IMAGE_NAME
-    unset SPREAD_GOOGLE_KEY
+    unset SPREAD_IMAGE_NAME    
 
     set +x
 }
