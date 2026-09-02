@@ -569,24 +569,3 @@ remove_pkg_blacklist(){
         distro_purge_package "$pkgs"
     fi
 }
-
-install_nested_dependencies(){
-    case "$SPREAD_SYSTEM" in
-        ubuntu-1*)
-            echo "No nested dependencies defined for $SPREAD_SYSTEM"
-            ;;
-        ubuntu-20*|ubuntu-22*)
-            apt install -y software-properties-common
-            add-apt-repository -y ppa:snappy-dev/image
-            apt install -y ubuntu-core-initramfs linux-firmware
-            ;;
-        ubuntu-*)
-            apt install -y dpkg-dev debhelper devscripts distro-info
-            # TODO: install from the gce backet the dependency generated
-            ;;
-        *)
-            echo "ERROR: Unsupported distribution $SPREAD_SYSTEM"
-            exit 1
-            ;;
-    esac
-}
