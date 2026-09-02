@@ -307,7 +307,7 @@ suites:
         systems: [ubuntu-*]
         environment:
         prepare: |
-            apt install -y google-cloud-cli
+            snap install google-cloud-cli --classic
             gcloud auth activate-service-account --key-file="$PROJECT_PATH/sa.json"
             rm -f "$PROJECT_PATH/sa.json"
 
