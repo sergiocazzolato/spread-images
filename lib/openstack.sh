@@ -98,7 +98,6 @@ show_help_update() {
     echo "./lib/openstack.sh update-image --backend openstack-arm --task ubuntu-26.04-arm-64 --source-system ubuntu-26.04-arm-64-base --target-system ubuntu-26.04-arm-64-uefi --property hw_firmware_type=uefi"
     echo ""
     echo "examples for ubuntu images for nested tests:"
-    echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-16.04-64-nested --source-system ubuntu-16.04-64-base --target-system ubuntu-16.04-64-nested"
     echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-18.04-64-nested --source-system ubuntu-18.04-64-base --target-system ubuntu-18.04-64-nested"
     echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-20.04-64-nested --source-system ubuntu-20.04-64-base --target-system ubuntu-20.04-64-nested --property hw_firmware_type=uefi"
     echo "./lib/openstack.sh update-image --backend openstack --task ubuntu-22.04-64-nested --source-system ubuntu-22.04-64-base --target-system ubuntu-22.04-64-nested --property hw_firmware_type=uefi"

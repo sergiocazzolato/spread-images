@@ -223,8 +223,6 @@ backends:
                 image: auto-sync/ubuntu-xenial-16.04-amd64-server
             - ubuntu-16.04-64:
                 image: snapd-spread/ubuntu-16.04-64
-            - ubuntu-16.04-64-nested:
-                image: snapd-spread/ubuntu-16.04-64-nested
             - ubuntu-18.04-64-base:
                 image: auto-sync/ubuntu-bionic-18.04-amd64-server 
             - ubuntu-18.04-64:
